@@ -9,18 +9,13 @@
 	#include "WProgram.h"
 #endif
 
+#include <RtcDateTime.h>
 #include <MD_MAX72xx.h>
 #include <MD_MAXPanel.h>
 
-typedef struct {
-	uint8_t hour;
-	uint8_t minute;
-	uint16_t raw;
-} clocktime_t;
-
 class ClockBase {
 public:
-	virtual void DisplayTime(MD_MAXPanel *mp, clocktime_t *time) = 0;
+	virtual void DisplayTime(MD_MAXPanel *mp, RtcDateTime *datetime) = 0;
 };
 
 #endif

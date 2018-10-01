@@ -13,7 +13,7 @@
 
 class NormalClock : public ClockBase {
 public:
-	void DisplayTime(MD_MAXPanel *mp, clocktime_t *time);
+	void DisplayTime(MD_MAXPanel *mp, RtcDateTime *datetime);
 };
 
 #endif
