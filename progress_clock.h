@@ -9,11 +9,12 @@
 	#include "WProgram.h"
 #endif
 
+#include <Time.h>
 #include "clock_base.h"
 
 class ProgressClock : public ClockBase {
 public:
-	void DisplayTime(MD_MAXPanel *mp, RtcDateTime *datetime);
+	void DisplayTime(MD_MAXPanel *mp, time_t *time);
 };
 
 #endif

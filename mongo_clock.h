@@ -9,11 +9,12 @@
 	#include "WProgram.h"
 #endif
 
+#include <Time.h>
 #include "clock_base.h"
 
 class MongoClock : public ClockBase {
 public:
-	void DisplayTime(MD_MAXPanel *mp, RtcDateTime *datetime);
+	void DisplayTime(MD_MAXPanel *mp, time_t *time);
 private:
 	const int targets[13] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4056};
 };

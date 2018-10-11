@@ -1,4 +1,5 @@
 {
     "board": "arduino:avr:uno",
-    "sketch": "MongoClock.ino"
+    "sketch": "MongoClock.ino",
+    "port": "COM5"
 }
