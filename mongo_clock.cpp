@@ -4,14 +4,14 @@
 
 #include "mongo_clock.h"
 
-void MongoClock::DisplayTime(MD_MAXPanel *mp, time_t *time) {
+void MongoClock::DisplayTime(MD_MAXPanel *mp, RtcDateTime *datetime) {
 	mp->clear();
 
-	int normalizedHour = hour(*time) % 12;
+	int normalizedHour = datetime->Hour() % 12;
 	int lower = normalizedHour == 0 ? 0 : targets[normalizedHour - 1];
 	int upper = targets[normalizedHour];
 	int diff = upper - lower;
-	int theTime = lower + (diff * (minute(*time) / 60.0));
+	int theTime = lower + (diff * (datetime->Minute() / 60.0));
 
 	String timeString(theTime);
 	int center = (mp->getXMax() / 2) - ((timeString.length() * 4) / 2);

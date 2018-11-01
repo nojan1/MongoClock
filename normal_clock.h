@@ -9,12 +9,11 @@
 	#include "WProgram.h"
 #endif
 
-#include <Time.h>
 #include "clock_base.h"
 
 class NormalClock : public ClockBase {
 public:
-	void DisplayTime(MD_MAXPanel *mp, time_t *time);
+	void DisplayTime(MD_MAXPanel *mp, RtcDateTime *datetime);
 };
 
 #endif

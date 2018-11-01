@@ -1,7 +1,6 @@
-
-#include <TimeLib.h>
-#include <Time.h>
-#include "DS1302RTC.h"
+#include <RtcDateTime.h>
+#include <Wire.h>
+#include <RtcDS3231.h>
 
 #include "progress_clock.h"
 #include "mongo_clock.h"
@@ -44,11 +43,9 @@ clock_list_t progressClock;
 bool timeSetMode = false;
 unsigned long lastMillis = 0;
 
-time_t last_time;
-time_t time;
-
-// Set pins:  CE/RST, IO,CLK
-DS1302RTC rtc(3, 4, 5);
+RtcDateTime last_datetime;
+RtcDateTime datetime;
+RtcDS3231<TwoWire> rtc(Wire);
 
 void setup()
 {
@@ -57,30 +54,16 @@ void setup()
 	setupClocks();
 	mp.begin();
 
-	tmElements_t elements;
-	elements.Hour = 5;
-	elements.Minute = 15;
-	elements.Second = 30;
-
-	time_t sd = makeTime(elements);
-	rtc.set(sd);
-
-	time = rtc.get();
-	updateClock(true);
+	rtc.Begin();
+	datetime = rtc.GetDateTime();
 }
 
 void loop()
 {
 	if (!timeSetMode && millis() - lastMillis > 1000)
 	{
-		time = rtc.get();
+		datetime = rtc.GetDateTime();
 		lastMillis = millis();
-
-		Serial.print(hour(time));
-		Serial.print(":");
-		Serial.print(minute(time));
-		Serial.print(":");
-		Serial.println(second(time));
 
 		updateClock(false);
 	}
@@ -92,7 +75,7 @@ void loop()
 	{
 		if (timeSetMode)
 		{
-			rtc.set(time);
+			rtc.SetDateTime(&datetime);
 			delay(500);
 		}
 
@@ -144,14 +127,14 @@ void setupClocks()
 
 void updateClock(bool force)
 {
-	if (force || hour(time) != hour(last_time) || minute(time) != minute(last_time))
-		currentClock->clock->DisplayTime(&mp, &time);
+	if (force || datetime.Hour() != last_datetime.Hour() || datetime.Minute() != last_datetime.Minute())
+		currentClock->clock->DisplayTime(&mp, &datetime);
 
-	last_time = time;
+	last_datetime = datetime;
 }
 
 void setTime(int amount)
 {
-	time += amount;
+	datetime += amount;
 	updateClock(true);
 }

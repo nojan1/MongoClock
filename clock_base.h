@@ -9,12 +9,13 @@
 	#include "WProgram.h"
 #endif
 
+#include <RtcDateTime.h>
 #include <MD_MAX72xx.h>
 #include <MD_MAXPanel.h>
 
 class ClockBase {
 public:
-	virtual void DisplayTime(MD_MAXPanel *mp, time_t *time) = 0;
+	virtual void DisplayTime(MD_MAXPanel *mp, RtcDateTime *datetime) = 0;
 };
 
 #endif

@@ -3,7 +3,6 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:\\Users\\hedlundn\\Documents\\Arduino\\libraries\\Time",
                 "C:\\Users\\hedlundn\\Documents\\Arduino\\libraries\\Rtc_by_Makuna\\src",
                 "C:\\Users\\hedlundn\\Documents\\Arduino\\libraries\\MD_MAXPanel\\src",
                 "C:\\Users\\hedlundn\\Documents\\Arduino\\libraries\\MD_MAX72XX\\src",
