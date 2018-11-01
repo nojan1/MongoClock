@@ -1,38 +1,59 @@
-// 
-// 
-// 
+//
+//
+//
 
 #include "button.h"
 
-Button::Button(int pin) {
+Button::Button(int pin)
+{
 	_pin = pin;
-	idleTimer = 0;
 
 	pinMode(pin, INPUT_PULLUP);
 }
 
-const int Button::GetState() {
-	if (digitalRead(_pin) == LOW) {
-		if (firstTimeButtonPressed == 0) {
-			firstTimeButtonPressed = millis();
-		}
-		else if (millis() - firstTimeButtonPressed >= HELD_DURATION) {
+const int Button::GetState()
+{
+	int pinState = digitalRead(_pin);
+
+	if (firstTimeButtonPressed > 0 && verifiedTimeButtonPressed == 0)
+	{
+		if (pinState == LOW)
+		{
 			firstTimeButtonPressed = 0;
-			return KEY_PRESS;
+		}
+		else if (millis() - firstTimeButtonPressed >= PRESSED_DURATION)
+		{
+			verifiedTimeButtonPressed = millis();
 		}
 	}
-	else {
-		if (firstTimeButtonPressed > 0 && 
-			millis() - firstTimeButtonPressed >= PRESSED_DURATION) {
+	else if (verifiedTimeButtonPressed > 0)
+	{
+		if (pinState == LOW)
+		{
+			firstTimeButtonPressed = 0;
+			verifiedTimeButtonPressed = 0;
 
-			firstTimeButtonPressed = 0;
-			return KEY_PRESS;
+			if (millis() - verifiedTimeButtonPressed >= HELD_DURATION)
+			{
+				return KEY_HOLD;
+			}
+			else
+			{
+				return KEY_PRESS;
+			}
 		}
-		else {
-			firstTimeButtonPressed = 0;
+		else
+		{
+			if (millis() - verifiedTimeButtonPressed >= HELD_DURATION)
+			{
+				return KEY_HOLD;
+			}
 		}
 	}
-
+	else if (firstTimeButtonPressed == 0 && pinState == HIGH)
+	{
+		firstTimeButtonPressed = millis();
+	}
+	
 	return KEY_UNDEFINED;
 }
-

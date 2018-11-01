@@ -22,8 +22,8 @@ public:
 	static const int KEY_HOLD = 2;
 private:
 	int _pin;
-	unsigned long firstTimeButtonPressed;
-	int idleTimer;
+	unsigned long firstTimeButtonPressed = 0;
+	unsigned long verifiedTimeButtonPressed = 0;
 };
 
 #endif

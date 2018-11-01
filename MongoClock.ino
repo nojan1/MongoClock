@@ -22,7 +22,7 @@ struct clock_list
 typedef struct clock_list clock_list_t;
 
 Button plusButton(7);
-Button minusButton(6);
+Button minusButton(8);
 
 const MD_MAX72XX::moduleType_t HARDWARE_TYPE = MD_MAX72XX::FC16_HW;
 const uint8_t X_DEVICES = 4;
@@ -54,8 +54,17 @@ void setup()
 	setupClocks();
 	mp.begin();
 
+	Serial.println("Init rtc");
+
 	rtc.Begin();
 	datetime = rtc.GetDateTime();
+
+	Serial.print("Time, ");
+	Serial.print(datetime.Hour(), DEC);
+	Serial.print(":");
+	Serial.print(datetime.Minute(), DEC);
+	Serial.print(":");
+	Serial.println(datetime.Second(), DEC);
 }
 
 void loop()
@@ -66,6 +75,13 @@ void loop()
 		lastMillis = millis();
 
 		updateClock(false);
+
+		Serial.print("Time, ");
+		Serial.print(datetime.Hour(), DEC);
+		Serial.print(":");
+		Serial.print(datetime.Minute(), DEC);
+		Serial.print(":");
+		Serial.println(datetime.Second(), DEC);
 	}
 
 	const int plusState = plusButton.GetState();
@@ -83,6 +99,7 @@ void loop()
 	}
 	else if (plusState != Button::KEY_UNDEFINED)
 	{
+		Serial.println("Plus clicked");
 		if (timeSetMode)
 		{
 			setTime(60);
@@ -95,6 +112,7 @@ void loop()
 	}
 	else if (minusState != Button::KEY_UNDEFINED)
 	{
+		Serial.println("Minus clicked");
 		if (timeSetMode)
 		{
 			setTime(-60);

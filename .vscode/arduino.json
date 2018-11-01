@@ -1,4 +1,6 @@
 {
-    "board": "arduino:avr:uno",
-    "sketch": "MongoClock.ino"
+    "board": "arduino:avr:pro",
+    "sketch": "MongoClock.ino",
+    "configuration": "cpu=8MHzatmega328",
+    "port": "COM6"
 }
